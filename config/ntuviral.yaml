@@ -1,14 +1,14 @@
 common:
     lidar_topic:  "/points_raw"
-    imu_topic:  "/os1_cloud_node/imu"
+    imu_topic:  "/imu/imu"
     point_filter_num: 4
-    sweep_cut_num: 2
+    sweep_cut_num: 3
     time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
     gravity_acc: [ 0.0, 0.0, 9.80416]
     
 lidar_parameter:
     lidar_type: 2           # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
-    N_SCANS: 64
+    N_SCANS: 16
     SCAN_RATE: 10           # only need to be set for velodyne, unit: Hz,
     time_unit: 0            # the unit of time/t field in the PointCloud2 rostopic: 0-second, 1-milisecond, 2-microsecond, 3-nanosecond.
     blind: 2
@@ -16,17 +16,17 @@ lidar_parameter:
     det_range:     100.0
 
 imu_parameter:
-    acc_cov: 3.18433768624e-2
-    gyr_cov: 5.30298029414e-3
-    b_acc_cov: 10.6e-5
-    b_gyr_cov: 4.0e-06
+    acc_cov: 6.0e-2
+    gyr_cov: 5.0e-3
+    b_acc_cov: 8.6e-5
+    b_gyr_cov: 3.0e-6
     time_diff_enable: false
 
 extrinsic_parameter:
     extrinsic_enable:  false      # true: enable the online estimation of IMU-LiDAR extrinsic,
-    extrinsic_t: [ -0.0063, 0.0118, -0.0285]
-    extrinsic_R: [ -1,  0,  0, 
-                    0, -1,  0, 
+    extrinsic_t: [ -0.050, 0.0, 0.055]
+    extrinsic_R: [  1,  0,  0, 
+                    0,  1,  0, 
                     0,  0,  1]
 
 odometry_options:
