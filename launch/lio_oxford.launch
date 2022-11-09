@@ -1,0 +1,26 @@
+<launch>
+    <!-- Launch file for velodyne16 VLP-16 LiDAR -->
+
+    <arg name="bag_file" default="/media/tmn/mySataSSD2/NewerCollegeDataset/01_short_experiment/01_short_experiment.bag"/>
+    <!-- <arg name="bag_file" default="/media/tmn/mySataSSD2/NewerCollegeDataset/06_dynamic_spinning/06_dynamic_spinning.bag"/> -->
+
+    <!-- Convert ouster to velodyne -->
+    <node pkg="cloud_converter" type="cloud_converter" name="ouster_to_velodyne" output="screen">
+        <param name="input_topic"  type="string" value="/os1_cloud_node/points"/>
+        <param name="input_type"   type="string" value="ouster"/>
+        <param name="output_topic" type="string" value="/points_raw"/>
+        <param name="output_type"  type="string" value="velodyne"/>
+    </node>
+
+    <rosparam command="load" file="$(find sr_lio)/config/oxford.yaml" />
+
+    <param name="debug_output" type="bool" value="0" />
+    <param name="output_path" type="string" value="$(find sr_lio)/output" />
+    <node pkg="sr_lio" type="lio_optimization" name="lio_optimization" output="screen" />
+
+    <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find sr_lio)/rviz_cfg/visualization.rviz" />
+
+    <!-- Play the bag file -->
+    <node pkg="rosbag" type="play" name="player" args="$(arg bag_file) -r 1.0"/>
+
+</launch>
