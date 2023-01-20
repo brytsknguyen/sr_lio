@@ -1,15 +1,16 @@
 <launch>
     <!-- Launch file for velodyne16 VLP-16 LiDAR -->
 
-    <arg name="bag_file" default="/media/tmn/mySataSSD2/NTU_VIRAL/rtp_01/rtp_01_mod.bag"/>
+    <arg name="bag_file" default="/media/tmn/mySataSSD2/NTU_VIRAL/nya_01/nya_01_mod.bag"/>
 
     <!-- Convert ouster to velodyne -->
-    <node pkg="cloud_converter" type="cloud_converter" name="ouster_to_velodyne" output="screen">
+    <!-- <node pkg="cloud_converter" type="cloud_converter" name="ouster_to_velodyne" output="screen">
         <param name="input_topic"  type="string" value="/os1_cloud_node1/points"/>
         <param name="input_type"   type="string" value="ouster"/>
         <param name="output_topic" type="string" value="/points_raw"/>
         <param name="output_type"  type="string" value="velodyne"/>
-    </node>
+    </node> -->
+    <node pkg="sr_lio" name="ouster2velo" type="ouster2velo.py" output="screen" />
 
     <rosparam command="load" file="$(find sr_lio)/config/ntuviral.yaml" />
 
@@ -20,7 +21,7 @@
     <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find sr_lio)/rviz_cfg/visualization.rviz" />
 
     <!-- Play the bag file -->
-    <node pkg="rosbag" type="play" name="player" args="$(arg bag_file) -r 0.1"/>
+    <node pkg="rosbag" type="play" name="player" args="$(arg bag_file) -r 1.0 -s 10"/>
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="world2cam" args="0 0 0 0 3.14159265359 0 world camera_init"/>
 

@@ -1,19 +1,19 @@
 common:
-    lidar_topic:  "/points_raw"
-    imu_topic:  "/imu/imu"
+    lidar_topic:      "/velo/pointcloud"
+    imu_topic:        "/imu/imu"
     point_filter_num: 4
-    sweep_cut_num: 3
-    time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
-    gravity_acc: [ 0.0, 0.0, 9.80416]
+    sweep_cut_num:    1
+    time_sync_en:     false         # ONLY turn on when external time synchronization is really not possible
+    gravity_acc:      [ 0.0, 0.0, 9.80416]
     
 lidar_parameter:
-    lidar_type: 2           # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
-    N_SCANS: 16
-    SCAN_RATE: 10           # only need to be set for velodyne, unit: Hz,
-    time_unit: 0            # the unit of time/t field in the PointCloud2 rostopic: 0-second, 1-milisecond, 2-microsecond, 3-nanosecond.
-    blind: 2
-    fov_degree:    360
-    det_range:     100.0
+    lidar_type:       2           # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
+    N_SCANS:          16
+    SCAN_RATE:        10           # only need to be set for velodyne, unit: Hz,
+    time_unit:        2            # the unit of time/t field in the PointCloud2 rostopic: 0-second, 1-milisecond, 2-microsecond, 3-nanosecond.
+    blind:            2
+    fov_degree:       360
+    det_range:        100.0
 
 imu_parameter:
     acc_cov: 6.0e-2
@@ -30,8 +30,8 @@ extrinsic_parameter:
                     0,  0,  1]
 
 odometry_options:
-    voxel_size: 0.1 # The voxel size for the grid sampling of the new frame (before keypoints extraction)
-    sample_voxel_size: 0.5 # The size of a voxel for the selection of `keypoints` by grid sampling
+    voxel_size: 0.2 # The voxel size for the grid sampling of the new frame (before keypoints extraction)
+    sample_voxel_size: 0.4 # The size of a voxel for the selection of `keypoints` by grid sampling
     max_distance: 100.0 # The threshold of the distance to suppress voxels from the map
     max_num_points_in_voxel: 20 # The maximum number of points per voxel of the map
     method_system_init: STATIC_INIT # LIO system initialization [MOTION_INIT, STATIC_INIT]
@@ -43,7 +43,7 @@ odometry_options:
     initialization: INIT_IMU # [INIT_CONSTANT_VELOCITY, INIT_IMU]
 
 icp_options:
-    size_voxel_map: 1.0 # The voxel size of in the voxel map
+    size_voxel_map: 0.4 # The voxel size of in the voxel map
     num_iters_icp: 15 # The number of iterations of the ICP
     min_number_neighbors: 20 # The minimum number of neighbor points to define a valid neighborhood
     voxel_neighborhood: 1
